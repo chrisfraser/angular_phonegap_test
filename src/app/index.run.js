@@ -1,14 +1,18 @@
 (function() {
-  'use strict';
+	'use strict';
 
-  angular
-    .module('eeArmApp')
-    .run(runBlock);
+	angular
+		.module('eeArmApp')
+		.run(runBlock);
 
-  /** @ngInject */
-  function runBlock($log) {
-
-    $log.debug('runBlock end');
-  }
+	/** @ngInject */
+	function runBlock($log) {
+		if (navigator.splashscreen) {
+			setTimeout(function() {
+				navigator.splashscreen.hide();
+			}, 750);
+		}
+		$log.debug('runBlock end');
+	}
 
 })();
