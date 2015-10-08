@@ -12,7 +12,7 @@
   <author email="hello@eearm.com" href="http://eearm.com">
   eeArm Team
   </author>
-  <content src="index.html"/>
+  <content src="www/index.html"/>
 
   <preference name="permissions"                value="none" />
   <preference name="webviewbounce"              value="true" />    
