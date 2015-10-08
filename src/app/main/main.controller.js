@@ -1,39 +1,82 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('eeArmApp')
-    .controller('MainController', MainController);
+    angular
+        .module('eeArmApp')
+        .controller('MainController', MainController);
 
-  /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
-    var vm = this;
+    /** @ngInject */
+    function MainController($scope, $element, $http, $mdSidenav, $mdBottomSheet, $log, eeArmMovement) {
 
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1444074965531;
-    vm.showToastr = showToastr;
+        $scope.increase = function(joint) {
+            eeArmMovement.increase(joint);
+            $log.debug("Robot: \n" + angular.toJson(eeArmMovement.getRobot(), true));
+        };
 
-    activate();
+        $scope.decrease = function(joint) {
+            eeArmMovement.decrease(joint);
+        };
 
-    function activate() {
-      getWebDevTec();
-      $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-      }, 4000);
+        $scope.addStep = function() {
+            eeArmMovement.addStep(500);
+        };
+
+        $scope.saveSteps = function() {
+            eeArmMovement.saveSteps();
+        };
+
+        $scope.clearLastStep = function() {
+            eeArmMovement.clearLastStep();
+        };
+
+        $scope.clearSteps = function() {
+            eeArmMovement.clearSteps();
+        };
+
+        $scope.playSteps = function() {
+            eeArmMovement.playSteps();
+        };
+
+        $scope.goToStart = function() {
+            eeArmMovement.goToStart();
+        };
+
+        $scope.resizeContent = function() {
+            var backgroundWidth = 1024,
+                backgroundHeight = 1124;
+
+            var contentWidth = $element.find('#content').width(),
+                contentHeight = $element.find('#content').height();
+
+            var aspectRatio = backgroundWidth / backgroundHeight;
+
+            // Check if content is too tall
+            if (contentHeight > contentWidth / aspectRatio) {
+                contentHeight = contentWidth / aspectRatio;
+            }
+
+            // Check if content is too wide
+            if (contentWidth > contentHeight * aspectRatio) {
+                contentWidth = contentHeight * aspectRatio;
+            }
+
+            $scope.contentWidth = contentWidth;
+            $scope.contentHeight = contentHeight;
+        };
+
+        $scope.openSideNav = function() {
+            $mdSidenav('left').open();
+        };
+
+        $scope.openBottomSheet = function() {
+            $mdBottomSheet.show({
+                templateUrl: 'app/components/bottomSheet/bottomSheet.html',
+                parent: "#main"
+            });
+        };
+        $scope.resizeContent();
+        eeArmMovement.start();
     }
 
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
 
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
-    }
-  }
 })();
