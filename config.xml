@@ -5,7 +5,7 @@
   xmlns:gap="http://phonegap.com/ns/1.0"
   xmlns:cdv="http://cordova.apache.org/ns/1.0">
   
-  <name>eeArm2</name>
+  <name>eeArm_Dev</name>
   <description>
   An awesome app to wirelessly control the eeArm.
   </description>
