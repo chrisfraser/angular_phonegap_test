@@ -8,6 +8,7 @@
     /** @ngInject */
     function AppSettingsController($scope, $element, $http, $window, $log, appSettings) {
         $scope.host = appSettings.host;
+        
         $scope.navBack = function() {
             $window.history.back();
         };
