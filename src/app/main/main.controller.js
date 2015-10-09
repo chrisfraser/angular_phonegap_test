@@ -74,6 +74,7 @@
                 parent: "#main"
             });
         };
+        
         $scope.resizeContent();
         eeArmMovement.start();
     }
