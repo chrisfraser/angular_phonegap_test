@@ -13,6 +13,15 @@
             }, 750);
 
         });
+
+        $window.addEventListener('deviceready', function() {
+
+            $log.debug('ready');
+            $timeout(function() {
+                $window.navigator.splashscreen.hide();
+            }, 750);
+        }, false);
+
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
