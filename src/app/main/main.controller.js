@@ -41,6 +41,10 @@
             eeArmMovement.goToStart();
         };
 
+        $scope.connect = function(){
+            eeArmMovement.start();
+        };
+
         $scope.resizeContent = function() {
             var backgroundWidth = 1024,
                 backgroundHeight = 1124;

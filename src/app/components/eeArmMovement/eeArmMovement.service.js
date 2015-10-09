@@ -10,14 +10,19 @@
 
         var connected = false,
             busy = false,
-            robot = {};
+            robot = {
+                base: 90,
+                body: 90,
+                neck: 90,
+                claw: 90
+            };
 
         var service = {};
 
         service.getRobot = function() {
             return robot;
         };
-        
+
         service.start = function() {
             busy = true;
             $http.get(appSettings.host + "/arm", {
@@ -30,7 +35,7 @@
                     connected = true;
                     robot.base = 90;
                     robot.body = 90;
-                    robot.neck = 0;
+                    robot.neck = 90;
                     robot.claw = 90;
                 });
         };
@@ -45,7 +50,7 @@
             if (robot[joint] > 180) {
                 robot[joint] = 180;
             }
-
+            $log.debug(robot);
             service.moveTo(robot);
         };
 
@@ -60,37 +65,32 @@
                 robot[joint] = 0;
             }
 
+            $log.debug(robot);
             service.moveTo(robot);
         };
 
         service.moveTo = function(robot) {
             busy = true;
-            $http.post(appSettings.host + "/arm", {
+            $http(generatePostReq("/arm", {
                     base: robot.base,
                     body: robot.body,
                     neck: robot.neck,
                     claw: robot.claw
-                }, {
-                    timeout: 1000,
-                    cache: false
-                })
+                }))
                 .then(armRequestCompleteSetState)
                 .catch(armRequestFailed);
         };
 
         service.addStep = function(delay) {
             busy = true;
-            $http.post(appSettings.host + "/add", {
+            $http(generatePostReq("/add", {
                     base: robot.base,
                     body: robot.body,
                     neck: robot.neck,
                     claw: robot.claw,
                     steps: 0,
                     delay: delay
-                }, {
-                    timeout: 1000,
-                    cache: false
-                })
+                }))
                 .then(armRequestComplete)
                 .catch(armRequestFailed);
         };
@@ -128,7 +128,7 @@
         service.playSteps = function() {
             busy = true;
 
-            $http.get(appSettings.host + "/go", {
+            $http.get(appSettings.host + "/play", {
                     timeout: 1000,
                     cache: false
                 })
@@ -150,12 +150,17 @@
             busy = false;
         }
 
-        function armRequestCompleteSetState(data) {
-            robot.base = data.base;
-            robot.body = data.body;
-            robot.neck = data.neck;
-            robot.claw = data.claw;
+        function armRequestCompleteSetState(response) {
 
+            robot.base = response.data.base;
+            robot.body = response.data.body;
+            robot.neck = response.data.neck;
+            robot.claw = response.data.claw;
+
+
+            $log.debug(robot);
+
+            connected = true;
             busy = false;
         }
 
@@ -164,7 +169,22 @@
             busy = false;
         }
 
-
+        function generatePostReq(url, data) {
+            return {
+                method: 'POST',
+                url: appSettings.host + url,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                transformRequest: function(obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: data
+            };
+        }
         return service;
 
     }
