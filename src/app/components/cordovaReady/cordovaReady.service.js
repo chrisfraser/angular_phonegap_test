@@ -5,7 +5,7 @@
     .factory('cordovaReady', cordovaReady);
 
   /** @ngInject */
-  function cordovaReady($window) {
+  function cordovaReady($window,$log) {
     return function(fn) {
 
       var queue = [];
@@ -15,6 +15,7 @@
       };
 
       $window.addEventListener('deviceready', function() {
+        $log.debug('deviceready');
         queue.forEach(function(args) {
           fn.apply(this, args);
         });
