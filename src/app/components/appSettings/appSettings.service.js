@@ -15,7 +15,7 @@
             claw: 12
         };
 
-        var host = "http://gwaarm.local";
+        var host = "http://192.168.4.1";
 
         var service = {
             increments: increments,
