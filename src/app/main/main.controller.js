@@ -6,15 +6,19 @@
         .controller('MainController', MainController);
 
     /** @ngInject */
-    function MainController($scope, $element, $http, $mdSidenav, $mdBottomSheet, $log, eeArmMovement) {
+    function MainController($scope, $element, $http, $timeout, $mdSidenav, $mdBottomSheet, $log, eeArmMovement) {
+        $scope.indicators = {};
+
+        $scope.connected = eeArmMovement.connected();
 
         $scope.increase = function(joint) {
             eeArmMovement.increase(joint);
-            $log.debug("Robot: \n" + angular.toJson(eeArmMovement.getRobot(), true));
+            flashIndicator(joint);
         };
 
         $scope.decrease = function(joint) {
             eeArmMovement.decrease(joint);
+            flashIndicator(joint);
         };
 
         $scope.addStep = function() {
@@ -81,6 +85,15 @@
         
         $scope.resizeContent();
         eeArmMovement.start();
+
+
+
+        function flashIndicator(joint){
+            $scope.indicators[joint] = true;
+            $timeout(function(){
+                $scope.indicators[joint] = false;
+            },200);
+        }
     }
 
 

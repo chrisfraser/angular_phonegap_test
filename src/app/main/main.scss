@@ -1,10 +1,36 @@
-#robot-control-wrapper {
+ #robot-control-wrapper {
     background: url("../assets/images/robot/robot_initial.png") no-repeat top center;
     background-size: auto 100%;
     margin: 0 auto;
     width: 100%;
     max-width: 1024px;
+} 
 
+.robot-indicator {
+    margin: 0 auto;
+    width: 100%;
+    position: fixed;
+}
+
+.robot-connected {
+    background: url("../assets/images/robot/robot_connected.png") no-repeat top center;
+    background-size: auto 100%;
+}
+.robot-base {
+    background: url("../assets/images/robot/robot_base.png") no-repeat top center;
+    background-size: auto 100%;
+}
+.robot-body {
+    background: url("../assets/images/robot/robot_body.png") no-repeat top center;
+    background-size: auto 100%;
+}
+.robot-neck {
+    background: url("../assets/images/robot/robot_neck.png") no-repeat top center;
+    background-size: auto 100%;
+}
+.robot-claw {
+    background: url("../assets/images/robot/robot_claw.png") no-repeat top center;
+    background-size: auto 100%;
 }
 
 #robot-control-wrapper div:focus {

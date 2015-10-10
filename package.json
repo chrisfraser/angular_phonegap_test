@@ -1,7 +1,9 @@
 {
   "name": "eeArmApp",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-google-webfonts": "0.0.6"
+  },
   "scripts": {
     "test": "gulp test"
   },

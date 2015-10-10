@@ -19,6 +19,11 @@
 
         var service = {};
 
+        // Todo: Use events here
+        service.connected = function(){
+            return connected;
+        };
+        
         service.getRobot = function() {
             return robot;
         };
@@ -178,8 +183,9 @@
                 },
                 transformRequest: function(obj) {
                     var str = [];
-                    for (var p in obj)
+                    for (var p in obj) {
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
                     return str.join("&");
                 },
                 data: data

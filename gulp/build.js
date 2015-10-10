@@ -72,6 +72,8 @@ gulp.task('fonts', function () {
     .pipe($.flatten())
     .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
+var gulp = require('gulp');
+
 
 gulp.task('other', function () {
   var fileFilter = $.filter(function (file) {
