@@ -20,28 +20,18 @@
         var service = {};
 
         // Todo: Use events here
-        service.connected = function(){
-            return connected;
-        };
-        
+        service.connected = connected;
+
         service.getRobot = function() {
             return robot;
         };
 
         service.start = function() {
             busy = true;
-            $http.get(appSettings.host + "/arm", {
-                    timeout: 5000,
-                    cache: false
-                })
+            $http(generateGetReq("/arm"))
                 .then(armRequestCompleteSetState)
                 .catch(function() {
                     busy = false;
-                    connected = true;
-                    robot.base = 90;
-                    robot.body = 90;
-                    robot.neck = 90;
-                    robot.claw = 90;
                 });
         };
 
@@ -102,30 +92,21 @@
 
         service.saveSteps = function() {
             busy = true;
-            $http.get(appSettings.host + "/savesteps", {
-                    timeout: 1000,
-                    cache: false
-                })
+            $http(generatePostReq("/savesteps", null))
                 .then(armRequestComplete)
                 .catch(armRequestFailed);
         };
 
         service.clearLastStep = function() {
             busy = true;
-            $http.get(appSettings.host + "/pop", {
-                    timeout: 1000,
-                    cache: false
-                })
+            $http(generatePostReq("/pop", null))
                 .then(armRequestComplete)
                 .catch(armRequestFailed);
         };
 
         service.clearSteps = function() {
             busy = true;
-            $http.get(appSettings.host + "/clear", {
-                    timeout: 1000,
-                    cache: false
-                })
+            $http(generatePostReq("/clear", null))
                 .then(armRequestComplete)
                 .catch(armRequestFailed);
         };
@@ -133,20 +114,14 @@
         service.playSteps = function() {
             busy = true;
 
-            $http.get(appSettings.host + "/play", {
-                    timeout: 1000,
-                    cache: false
-                })
+            $http(generatePostReq("/play", null))
                 .then(armRequestComplete)
                 .catch(armRequestFailed);
         };
 
         service.goToStart = function() {
             busy = true;
-            $http.get(appSettings.host + "/gostart", {
-                    timeout: 1000,
-                    cache: false
-                })
+            $http(generatePostReq("/gostart", null, 4000))
                 .then(armRequestCompleteSetState)
                 .catch(armRequestFailed);
         };
@@ -156,14 +131,12 @@
         }
 
         function armRequestCompleteSetState(response) {
+            $log.debug("armRequestCompleteSetState", response);
 
             robot.base = response.data.base;
             robot.body = response.data.body;
             robot.neck = response.data.neck;
             robot.claw = response.data.claw;
-
-
-            $log.debug(robot);
 
             connected = true;
             busy = false;
@@ -172,12 +145,14 @@
         function armRequestFailed(error) {
             $log.error('Arm request failed.\n' + angular.toJson(error.data, true));
             busy = false;
+            connected = false;
         }
 
-        function generatePostReq(url, data) {
+        function generatePostReq(url, data, timeout) {
             return {
                 method: 'POST',
                 url: appSettings.host + url,
+                timeout: timeout || 2000,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -189,6 +164,15 @@
                     return str.join("&");
                 },
                 data: data
+            };
+        }
+
+        function generateGetReq(url) {
+            return {
+                method: 'GET',
+                url: appSettings.host + url,
+                timeout: 2000,
+                cache: false
             };
         }
         return service;

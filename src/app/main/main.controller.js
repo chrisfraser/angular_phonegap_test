@@ -9,7 +9,7 @@
     function MainController($scope, $element, $http, $timeout, $mdSidenav, $mdBottomSheet, $log, eeArmMovement) {
         $scope.indicators = {};
 
-        $scope.connected = eeArmMovement.connected();
+        $scope.eeArmMovement = eeArmMovement;
 
         $scope.increase = function(joint) {
             eeArmMovement.increase(joint);
