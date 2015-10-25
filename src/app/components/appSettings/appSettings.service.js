@@ -17,7 +17,7 @@
 
         //var host = "http://192.168.4.1";
 
-        var host = "http://sundayarm.local";
+        var host = "http://192.168.4.1";
 
         var service = {
             increments: increments,

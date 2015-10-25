@@ -9,22 +9,19 @@
     function eeArmMovement($log, $http, appSettings) {
 
         var connected = false,
-            busy = false,
-            robot = {
-                base: 90,
-                body: 90,
-                neck: 90,
-                claw: 90
-            };
+            busy = false;
 
         var service = {};
 
+        service.robot = {
+            base: 90,
+            body: 90,
+            neck: 90,
+            claw: 90
+        };
+
         // Todo: Use events here
         service.connected = connected;
-
-        service.getRobot = function() {
-            return robot;
-        };
 
         service.start = function() {
             busy = true;
@@ -36,41 +33,41 @@
         };
 
         service.increase = function(joint) {
-            if (!connected || robot[joint] === 180 || busy) {
+            if (!connected || service.robot[joint] === 180 || busy) {
                 return;
             }
 
-            robot[joint] += appSettings.increments[joint];
+            service.robot[joint] += appSettings.increments[joint];
 
-            if (robot[joint] > 180) {
-                robot[joint] = 180;
+            if (service.robot[joint] > 180) {
+                service.robot[joint] = 180;
             }
-            $log.debug(robot);
-            service.moveTo(robot);
+            $log.debug(service.robot);
+            service.moveTo(service.robot);
         };
 
         service.decrease = function(joint) {
-            if (!connected || robot[joint] === 0 || busy) {
+            if (!connected || service.robot[joint] === 0 || busy) {
                 return;
             }
 
-            robot[joint] -= appSettings.increments[joint];
+            service.robot[joint] -= appSettings.increments[joint];
 
-            if (robot[joint] < 0) {
-                robot[joint] = 0;
+            if (service.robot[joint] < 0) {
+                service.robot[joint] = 0;
             }
 
-            $log.debug(robot);
-            service.moveTo(robot);
+            $log.debug(service.robot);
+            service.moveTo(service.robot);
         };
 
         service.moveTo = function(robot) {
             busy = true;
             $http(generatePostReq("/arm", {
-                    base: robot.base,
-                    body: robot.body,
-                    neck: robot.neck,
-                    claw: robot.claw
+                    base: service.robot.base,
+                    body: service.robot.body,
+                    neck: service.robot.neck,
+                    claw: service.robot.claw
                 }))
                 .then(armRequestCompleteSetState)
                 .catch(armRequestFailed);
@@ -79,10 +76,10 @@
         service.addStep = function(delay) {
             busy = true;
             $http(generatePostReq("/add", {
-                    base: robot.base,
-                    body: robot.body,
-                    neck: robot.neck,
-                    claw: robot.claw,
+                    base: service.robot.base,
+                    body: service.robot.body,
+                    neck: service.robot.neck,
+                    claw: service.robot.claw,
                     steps: 0,
                     delay: delay
                 }))
@@ -133,10 +130,10 @@
         function armRequestCompleteSetState(response) {
             $log.debug("armRequestCompleteSetState", response);
 
-            robot.base = response.data.base;
-            robot.body = response.data.body;
-            robot.neck = response.data.neck;
-            robot.claw = response.data.claw;
+            service.robot.base = response.data.base;
+            service.robot.body = response.data.body;
+            service.robot.neck = response.data.neck;
+            service.robot.claw = response.data.claw;
 
             connected = true;
             busy = false;
