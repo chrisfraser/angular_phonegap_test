@@ -6,36 +6,36 @@
         .controller('BottomSheet', BottomSheet);
 
     /** @ngInject */
-    function BottomSheet($scope, $mdBottomSheet, $log, eeArmMovement) {
+    function BottomSheet($scope, $mdBottomSheet, $log, eeArmAPI) {
 
 
         $scope.addStep = function() {
-            eeArmMovement.addStep(500);
+            eeArmAPI.addStep(500);
             $mdBottomSheet.hide();
         };
 
         $scope.saveSteps = function() {
-            eeArmMovement.saveSteps();
+            eeArmAPI.saveSteps();
             $mdBottomSheet.hide();
         };
 
         $scope.clearLastStep = function() {
-            eeArmMovement.clearLastStep();
+            eeArmAPI.clearLastStep();
             $mdBottomSheet.hide();
         };
 
         $scope.clearSteps = function() {
-            eeArmMovement.clearSteps();
+            eeArmAPI.clearSteps();
             $mdBottomSheet.hide();
         };
 
         $scope.playSteps = function() {
-            eeArmMovement.playSteps();
+            eeArmAPI.playSteps();
             $mdBottomSheet.hide();
         };
 
         $scope.goToStart = function() {
-            eeArmMovement.goToStart();
+            eeArmAPI.goToStart();
             $mdBottomSheet.hide();
         };
     }

@@ -1,0 +1,98 @@
+<div layout="column" class="hundies" id="main">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Back" ng-click="navBack()">
+                <md-icon md-svg-icon="assets/images/icons/left.svg"></md-icon>
+            </md-button>
+            <div flex></div>
+            <h1>
+              <span>eeArm</span>
+            </h1>
+            <div flex></div>
+        </div>
+    </md-toolbar>
+    <div id="content" flex>
+        <md-subheader class="md-no-sticky">Arm Start Position</md-subheader>
+        <div class="spinner" layout="column" layout-align="space-around center" ng-hide="fetched">
+            <md-progress-circular class="md-hue-1" md-mode="indeterminate"></md-progress-circular>
+            <div>
+                <h4>Loading settings...</h1>
+            </div>
+        </div>
+        <md-content class="ng-hide" flex layout-padding ng-show="fetched">
+
+            <p>Edit the start positions, test and save.</p>
+
+            <form name="startForm">
+                 <md-input-container class="md-block">
+                    <label>Base</label>
+                    <input required type="number" step="any" name="base" ng-model="robot.base" min="0" max="180"/>
+                    <div ng-messages="startForm.base.$error" multiple>
+                      <div ng-message="required">
+                        You've got to put something!
+                      </div>
+                      <div ng-message="min">
+                        Range is 0 to 180!
+                      </div>
+                      <div ng-message="max">
+                        Range is 0 to 180!
+                      </div>
+                    </div>
+                </md-input-container>
+                 <md-input-container class="md-block">
+                    <label>Body</label>
+                    <input required type="number" step="any" name="body" ng-model="robot.body" min="0" max="180"/>
+                    <div ng-messages="startForm.body.$error" multiple>
+                      <div ng-message="required">
+                        You've got to put something!
+                      </div>
+                      <div ng-message="min">
+                        Range is 0 to 180!
+                      </div>
+                      <div ng-message="max">
+                        Range is 0 to 180!
+                      </div>
+                    </div>
+                </md-input-container>
+                 <md-input-container class="md-block">
+                    <label>Neck</label>
+                    <input required type="number" step="any" name="neck" ng-model="robot.neck" min="0" max="180"/>
+                    <div ng-messages="startForm.neck.$error" multiple>
+                      <div ng-message="required">
+                        You've got to put something!
+                      </div>
+                      <div ng-message="min">
+                        Range is 0 to 180!
+                      </div>
+                      <div ng-message="max">
+                        Range is 0 to 180!
+                      </div>
+                    </div>
+                </md-input-container>
+                 <md-input-container class="md-block">
+                    <label>Claw</label>
+                    <input required type="number" step="any" name="claw" ng-model="robot.claw" min="0" max="180"/>
+                    <div ng-messages="startForm.claw.$error" multiple>
+                      <div ng-message="required">
+                        You've got to put something!
+                      </div>
+                      <div ng-message="min">
+                        Range is 0 to 180!
+                      </div>
+                      <div ng-message="max">
+                        Range is 0 to 180!
+                      </div>
+                    </div>
+                </md-input-container>
+            </form>
+            <div layout>
+              <div flex="50" layout layout-align="center center">
+                <md-button flex class="md-raised" ng-click="test()">Test</md-button>
+              </div>
+              <div flex="50" layout layout-align="center center">
+                <md-button flex class="md-primary md-raised" ng-click="save()">Save</md-button>
+              </div>
+            </div>  
+        </md-content>
+    </div>
+</div>

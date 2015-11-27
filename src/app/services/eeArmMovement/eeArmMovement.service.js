@@ -3,10 +3,10 @@
 
     angular
         .module('eeArmApp')
-        .factory('eeArmMovement', eeArmMovement);
+        .factory('eeArmAPI', eeArmAPI);
 
     /** @ngInject */
-    function eeArmMovement($log, $http, appSettings) {
+    function eeArmAPI($log, $http, appSettings) {
 
         var connected = false,
             busy = false;
@@ -37,7 +37,7 @@
                 return;
             }
 
-            service.robot[joint] += appSettings.increments[joint];
+            service.robot[joint] += appSettings.getIncrements()[joint];
 
             if (service.robot[joint] > 180) {
                 service.robot[joint] = 180;
@@ -51,7 +51,7 @@
                 return;
             }
 
-            service.robot[joint] -= appSettings.increments[joint];
+            service.robot[joint] -= appSettings.getIncrements()[joint];
 
             if (service.robot[joint] < 0) {
                 service.robot[joint] = 0;
@@ -63,11 +63,11 @@
 
         service.moveTo = function(robot) {
             busy = true;
-            $http(generatePostReq("/arm", {
-                    base: service.robot.base,
-                    body: service.robot.body,
-                    neck: service.robot.neck,
-                    claw: service.robot.claw
+            return $http(generatePostReq("/arm", {
+                    base: robot.base,
+                    body: robot.body,
+                    neck: robot.neck,
+                    claw: robot.claw
                 }))
                 .then(armRequestCompleteSetState)
                 .catch(armRequestFailed);
@@ -121,14 +121,73 @@
             $http(generatePostReq("/gostart", null, 4000))
                 .then(armRequestCompleteSetState)
                 .catch(armRequestFailed);
+        };        
+
+        service.getSettingsPromise = function() {
+            busy = true;
+            return $http(generateGetReq("/settings"))
+                .then(armRequestComplete)
+                .catch(armRequestFailed);
         };
 
-        function armRequestComplete() {
+        service.saveSettings = function(settings) {
+            busy = true;
+            return $http(generatePostReq("/settings", settings))
+                .then(armRequestComplete)
+                .catch(armRequestFailed);
+        };
+
+        service.setDefaultCalibration = function() {
+            busy = true;
+            return $http(generatePostReq("/setdefaultcalibration", null))
+                .then(armRequestComplete)
+                .catch(armRequestFailed);
+        };
+
+        service.saveCalibration = function(cal) {
+            busy = true;
+            
+            var data = {
+                ba_min: cal.base.min,
+                ba_max: cal.base.max,
+                bo_min: cal.body.min,
+                bo_max: cal.body.max,
+                n_min: cal.neck.min,
+                n_max: cal.neck.max,
+                c_min: cal.claw.min,
+                c_max: cal.claw.max,
+            };
+
+            return $http(generatePostReq("/armcalibration", data))
+                .then(armRequestComplete)
+                .catch(armRequestFailed);
+        };
+
+        service.saveArmStart = function(robot) {
+            busy = true;
+            
+            var data = {
+                ba_start: robot.base,
+                bo_start: robot.body,
+                n_start: robot.neck,
+                c_start: robot.claw
+            };
+
+            return $http(generatePostReq("/armstartposition", data))
+                .then(armRequestComplete)
+                .catch(armRequestFailed);
+        };
+
+        function armRequestComplete(response) {
+            $log.debug(response);
+
             busy = false;
+
+            return response;
         }
 
         function armRequestCompleteSetState(response) {
-            $log.debug("armRequestCompleteSetState", response);
+            $log.debug(response);
 
             service.robot.base = response.data.base;
             service.robot.body = response.data.body;
@@ -137,18 +196,23 @@
 
             connected = true;
             busy = false;
+
+            return response;
         }
 
         function armRequestFailed(error) {
             $log.error('Arm request failed.\n' + angular.toJson(error.data, true));
+            $log.debug(error);
             busy = false;
             connected = false;
+
+            return error;
         }
 
         function generatePostReq(url, data, timeout) {
             return {
                 method: 'POST',
-                url: appSettings.host + url,
+                url: appSettings.getHost() + url,
                 timeout: timeout || 2000,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -167,12 +231,12 @@
         function generateGetReq(url) {
             return {
                 method: 'GET',
-                url: appSettings.host + url,
+                url: appSettings.getHost() + url,
                 timeout: 2000,
                 cache: false
             };
         }
-        return service;
 
+        return service;
     }
 })();

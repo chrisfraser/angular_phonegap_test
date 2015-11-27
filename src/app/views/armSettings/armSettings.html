@@ -1,0 +1,42 @@
+<div layout="column" class="hundies" id="main">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Back" ng-click="navBack()">
+                <md-icon md-svg-icon="assets/images/icons/left.svg"></md-icon>
+            </md-button>
+            <div flex></div>
+            <h1>
+              <span>eeArm</span>
+            </h1>
+            <div flex></div>
+        </div>
+    </md-toolbar>
+    <div id="content" flex>
+        <div class="spinner" layout="column" layout-align="space-around center" ng-hide="fetched">
+            <md-progress-circular class="md-hue-1" md-mode="indeterminate"></md-progress-circular>
+            <div>
+                <h4>Loading settings...</h1>
+            </div>
+        </div>
+        <md-content class="ng-hide" layout-padding ng-show="fetched">
+            <md-subheader class="md-no-sticky">Arm Settings</md-subheader>
+
+            <md-input-container flex>
+                <label>Device Name</label>
+                <input ng-model="settings.name">
+            </md-input-container>
+            <md-switch ng-model="settings.mode" aria-label="mode" ng-true-value="'STA'" ng-false-value="'AP'" class="md-block">
+                Wifi Mode: {{ settings.mode }}
+            </md-switch>            
+            <md-input-container flex>
+                <label>SSID</label>
+                <input ng-model="settings.ssid">
+            </md-input-container>  
+            <md-input-container flex>
+                <label>Password</label>
+                <input ng-model="settings.pass">
+            </md-input-container>
+            <md-button flex="50" class="md-primary md-raised" ng-click="save()">Save</md-button>
+        </md-content>
+    </div>
+</div>

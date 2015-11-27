@@ -18,13 +18,17 @@
                 <md-icon md-svg-icon="assets/images/icons/smartphone.svg"></md-icon>
                 <p> App Settings </p>
             </md-list-item>
-            <md-list-item ui-sref="armSettings">
+            <md-list-item  ng-click="$state.go('armSettings')">
                 <md-icon md-svg-icon="assets/images/icons/tool.svg"></md-icon>
                 <p> Arm Settings </p>
             </md-list-item>
-            <md-list-item>
+            <md-list-item  ng-click="$state.go('calibration')">
                 <md-icon md-svg-icon="assets/images/icons/levels.svg"></md-icon>
                 <p> Calibration </p>
+            </md-list-item>
+            <md-list-item  ng-click="$state.go('armStart')">
+                <md-icon md-svg-icon="assets/images/icons/flag.svg"></md-icon>
+                <p> Arm Start Position </p>
             </md-list-item>
         </md-content>
     </div>

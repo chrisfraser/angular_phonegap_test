@@ -6,15 +6,17 @@
         .controller('AppSettingsController', AppSettingsController);
 
     /** @ngInject */
-    function AppSettingsController($scope, $element, $http, $window, $log, appSettings) {
-        $scope.host = appSettings.host;
+    function AppSettingsController($scope, $element, $http, $window, $log, appSettings, toastr) {
+        $scope.host = appSettings.getHost();
         
         $scope.navBack = function() {
             $window.history.back();
         };
 
         $scope.save = function(){
-            appSettings.host = $scope.host
+            appSettings.saveHost($scope.host);
+            $scope.navBack();
+            toastr["success"]("Saved");
         }
     }
 })();

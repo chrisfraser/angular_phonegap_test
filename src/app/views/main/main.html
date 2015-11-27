@@ -9,31 +9,31 @@
               <span>eeArm</span>
             </h1>
             <div flex></div>
-            <md-button class="md-icon-button" aria-label="Settings" ng-click="connect()">
+            <md-button class="md-icon-button" aria-label="Connect" ng-click="connect()">
                 <md-icon md-svg-icon="assets/images/icons/connect.svg"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
-    <div id="content" flex layout="column" layout-align="center center" layout-wrap>
+    <div id="content" class="noselect" flex layout="column" layout-align="center center" layout-wrap>
         <div id="robot-control-wrapper" layout="column" ng-style="{height: contentHeight, width: contentWidth}">
-            <div class="robot-indicator robot-connected ng-hide"  ng-style="{height: contentHeight, width: contentWidth}" ng-show="eeArmMovement.connected"></div>
+            <div class="robot-indicator robot-connected ng-hide"  ng-style="{height: contentHeight, width: contentWidth}" ng-show="connected"></div>
             <div class="robot-indicator robot-base ng-hide"  ng-style="{height: contentHeight, width: contentWidth}" ng-show="indicators.base"></div>
             <div class="robot-indicator robot-body ng-hide"  ng-style="{height: contentHeight, width: contentWidth}" ng-show="indicators.body"></div>
             <div class="robot-indicator robot-neck ng-hide"  ng-style="{height: contentHeight, width: contentWidth}" ng-show="indicators.neck"></div>
             <div class="robot-indicator robot-claw ng-hide"  ng-style="{height: contentHeight, width: contentWidth}" ng-show="indicators.claw"></div>
-            <div layout="row" flex="30">
+            <div class="movement-button" layout="row" flex="30">
                 <div ng-click="decrease('claw')" flex></div>
                 <div ng-click="increase('claw')" flex></div>
             </div>
-            <div layout="row" flex="25">
+            <div class="movement-button" layout="row" flex="25">
                 <div ng-click="increase('neck')" flex="40"></div>
                 <div ng-click="decrease('neck')" flex></div>
             </div>
-            <div layout="row" flex="25">
+            <div class="movement-button"  layout="row" flex="25">
                 <div ng-click="decrease('body')" flex></div>
                 <div ng-click="increase('body')" flex></div>
             </div>
-            <div layout="row" flex>
+            <div class="movement-button"  layout="row" flex>
                 <div ng-click="decrease('base')" flex></div>
                 <div ng-click="increase('base')" flex></div>
             </div>
@@ -44,7 +44,7 @@
                                     <span><b>Neck: </b>69&deg;</span>
                                     <span><b>Arm: </b>23&deg;</span>
                                     <span><b>Claw: </b>45&deg;</span>
-        </div> -->
+      </div> -->
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center" layout-wrap>
             <md-button class="md-icon-button" aria-label="Add" ng-click="addStep()">

@@ -6,47 +6,49 @@
         .controller('MainController', MainController);
 
     /** @ngInject */
-    function MainController($scope, $element, $http, $timeout, $mdSidenav, $mdBottomSheet, $log, eeArmMovement) {
+    function MainController($scope, $element, $http, $timeout, $mdSidenav, $mdBottomSheet, $log, eeArmAPI) {
         $scope.indicators = {};
 
-        $scope.eeArmMovement = eeArmMovement;
+        $scope.$watch(function () { return eeArmAPI.connected; }, function (connected) {
+            $scope.connected = connected;
+        });
 
         $scope.increase = function(joint) {
-            eeArmMovement.increase(joint);
+            eeArmAPI.increase(joint);
             flashIndicator(joint);
         };
 
         $scope.decrease = function(joint) {
-            eeArmMovement.decrease(joint);
+            eeArmAPI.decrease(joint);
             flashIndicator(joint);
         };
 
         $scope.addStep = function() {
-            eeArmMovement.addStep(500);
+            eeArmAPI.addStep(500);
         };
 
         $scope.saveSteps = function() {
-            eeArmMovement.saveSteps();
+            eeArmAPI.saveSteps();
         };
 
         $scope.clearLastStep = function() {
-            eeArmMovement.clearLastStep();
+            eeArmAPI.clearLastStep();
         };
 
         $scope.clearSteps = function() {
-            eeArmMovement.clearSteps();
+            eeArmAPI.clearSteps();
         };
 
         $scope.playSteps = function() {
-            eeArmMovement.playSteps();
+            eeArmAPI.playSteps();
         };
 
         $scope.goToStart = function() {
-            eeArmMovement.goToStart();
+            eeArmAPI.goToStart();
         };
 
-        $scope.connect = function(){
-            eeArmMovement.start();
+        $scope.connect = function() {
+            eeArmAPI.start();
         };
 
         $scope.resizeContent = function() {
@@ -82,17 +84,15 @@
                 parent: "#main"
             });
         };
-        
+
         $scope.resizeContent();
-        eeArmMovement.start();
+        eeArmAPI.start();
 
-
-
-        function flashIndicator(joint){
+        function flashIndicator(joint) {
             $scope.indicators[joint] = true;
-            $timeout(function(){
+            $timeout(function() {
                 $scope.indicators[joint] = false;
-            },200);
+            }, 200);
         }
     }
 

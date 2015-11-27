@@ -1,0 +1,240 @@
+<div layout="column" class="hundies" id="main">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Back" ng-click="navBack()">
+                <md-icon md-svg-icon="assets/images/icons/left.svg"></md-icon>
+            </md-button>
+            <div flex></div>
+            <h1>
+              <span>eeArm</span>
+            </h1>
+            <div flex></div>
+        </div>
+    </md-toolbar>
+    <div id="content" flex>
+        <div class="spinner" layout="column" layout-align="space-around center" ng-hide="fetched">
+            <md-progress-circular class="md-hue-1" md-mode="indeterminate"></md-progress-circular>
+            <div>
+                <h4>Loading settings...</h1>
+            </div>
+        </div>
+        <md-content class="ng-hide" layout-padding ng-show="fetched">
+            <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect  md-dynamic-height >
+                <md-tab label="Start">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Calibration</h1>
+                        <p>Follow the steps to complete arm calibration.</p>
+                        <md-button flex="50" class="md-primary md-raised" ng-click="start()">Start</md-button>
+                    </md-content>
+                </md-tab>                
+                <md-tab label="1">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Base</h1>
+                        <p>Move the sliders to select the correct min and max positions.</p>
+
+                        <form name="baseForm">
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Min</label>
+                                    <input required type="number" step="any" name="min" ng-model="cal.base.min" min="5" max="175"/>
+                                    <div ng-messages="baseForm.min.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('base',cal.base.min)">Test</md-button>
+                                </div>
+                            </div> 
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Max</label>
+                                    <input required type="number" step="any" name="max" ng-model="cal.base.max" min="5" max="175"/>
+                                    <div ng-messages="baseForm.max.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('base',cal.base.max)">Test</md-button>
+                                </div>
+                            </div>  
+                        </form>
+                        <md-button flex="50" class="md-primary md-raised" ng-click="next()">Next</md-button>
+                    </md-content>
+                </md-tab>               
+                <md-tab label="2">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Body</h1>
+                        <p>Move the sliders to select the correct min and max positions.</p>
+
+                        <form name="bodyForm">
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Min</label>
+                                    <input required type="number" step="any" name="min" ng-model="cal.body.min" min="5" max="175"/>
+                                    <div ng-messages="bodyForm.min.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('body',cal.body.min)">Test</md-button>
+                                </div>
+                            </div> 
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Max</label>
+                                    <input required type="number" step="any" name="max" ng-model="cal.body.max" min="5" max="175"/>
+                                    <div ng-messages="bodyForm.max.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('body',cal.body.max)">Test</md-button>
+                                </div>
+                            </div>  
+                        </form>
+                        <md-button flex="50" class="md-primary md-raised" ng-click="next()">Next</md-button>
+                    </md-content>
+                </md-tab>               
+                <md-tab label="3">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Neck</h1>
+                        <p>Move the sliders to select the correct min and max positions.</p>
+
+                        <form name="neckForm">
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Min</label>
+                                    <input required type="number" step="any" name="min" ng-model="cal.neck.min" min="5" max="175"/>
+                                    <div ng-messages="neckForm.min.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('neck',cal.neck.min)">Test</md-button>
+                                </div>
+                            </div> 
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Max</label>
+                                    <input required type="number" step="any" name="max" ng-model="cal.neck.max" min="5" max="175"/>
+                                    <div ng-messages="neckForm.max.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('neck',cal.neck.max)">Test</md-button>
+                                </div>
+                            </div>  
+                        </form>
+                        <md-button flex="50" class="md-primary md-raised" ng-click="next()">Next</md-button>
+                    </md-content>
+                </md-tab>               
+                <md-tab label="4">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Claw</h1>
+                        <p>Move the sliders to select the correct min and max positions.</p>
+
+                        <form name="clawForm">
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Min</label>
+                                    <input required type="number" step="any" name="min" ng-model="cal.claw.min" min="5" max="175"/>
+                                    <div ng-messages="clawForm.min.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('claw',cal.claw.min)">Test</md-button>
+                                </div>
+                            </div> 
+                            <div layout>
+                                 <md-input-container flex="80" class="md-block">
+                                    <label>Max</label>
+                                    <input required type="number" step="any" name="max" ng-model="cal.claw.max" min="5" max="175"/>
+                                    <div ng-messages="clawForm.max.$error" multiple>
+                                      <div ng-message="required">
+                                        You've got to put something!
+                                      </div>
+                                      <div ng-message="min">
+                                        Less than 5 is dangerous.
+                                      </div>
+                                      <div ng-message="max">
+                                        More than 175 is dangerous.
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <div flex="20" layout layout-align="center center">
+                                    <md-button flex="30" class="md-raised" ng-click="test('claw',cal.claw.max)">Test</md-button>
+                                </div>
+                            </div>  
+                        </form>
+                        <md-button flex="50" class="md-primary md-raised" ng-click="next()">Next</md-button>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Save">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Save</h1>
+                        <p>Follow the steps to complete arm calibration.</p>
+                        <md-button flex="50" class="md-primary md-raised" ng-click="save()">Save</md-button>
+                    </md-content>
+                </md-tab>   
+            </md-tabs>
+        </md-content>
+    </div>
+</div>

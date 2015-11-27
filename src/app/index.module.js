@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('eeArmApp', ['ngAnimate', 'ui.router', 'ngMaterial']);
+    .module('eeArmApp', ['ngAnimate', 'ngMessages', 'ui.router', 'ngMaterial', 'ngCordova', 'ngStorage']);
 
 })();

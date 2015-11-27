@@ -1,5 +1,6 @@
 <!doctype html>
-<html ng-app="eeArmApp">
+<html>
+<!-- <html ng-app="eeArmApp"> -->
 
 <head>
     <meta charset="utf-8">
@@ -56,9 +57,8 @@
         // The scope of 'this' is the event. In order to call the 'receivedEvent'
         // function, we must explicitly call 'app.receivedEvent(...);'
         onDeviceReady: function() {
-            setTimeout(function() {
-                navigator.splashscreen.hide();
-            }, 750);
+            console.log('Ready');
+            angular.bootstrap(document, ['eeArmApp']);
         }
     };
 

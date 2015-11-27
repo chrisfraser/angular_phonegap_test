@@ -6,21 +6,13 @@
         .run(runBlock);
 
     /** @ngInject */
-    function runBlock($log, $timeout, $window, $rootScope, $state, $stateParams, cordovaReady) {
-        cordovaReady(function() {
+    function runBlock($log, $timeout, $window, $rootScope, $state, $stateParams, $cordovaSplashscreen) {
+        // Make sure that cordova is running and the plugin is there
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Splashscreen) {
             $timeout(function() {
-                $window.navigator.splashscreen.hide();
+                $cordovaSplashscreen.hide();
             }, 750);
-
-        });
-
-        $window.addEventListener('deviceready', function() {
-
-            $log.debug('ready');
-            $timeout(function() {
-                $window.navigator.splashscreen.hide();
-            }, 750);
-        }, false);
+        }
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
