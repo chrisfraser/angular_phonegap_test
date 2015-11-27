@@ -27,7 +27,8 @@
 
   <preference name="show-splash-screen-spinner" value="false" />   
   <preference name="SplashScreen"               value="screen"/>
-  <preference name="AutoHideSplashScreen"       value="false" /> 
+  <preference name="AutoHideSplashScreen"       value="true" /> 
+  <preference name="SplashScreenDelay" value="1000" />
 
   <!-- Android Icons -->
   <icon src="resources/android/icon/drawable-ldpi-icon.png" gap:platform="android" gap:qualifier="ldpi"/>
